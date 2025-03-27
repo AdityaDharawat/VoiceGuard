@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Home, BarChart2, MessageSquare, Menu, X } from 'lucide-react';
+import { Shield, Home, BarChart2, MessageSquare, Menu, X, LogIn } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -44,6 +44,13 @@ const Navigation = () => {
                 </Link>
               );
             })}
+            <Link 
+              to="/auth" 
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-all flex items-center space-x-2"
+            >
+              <LogIn className="w-5 h-5" />
+              <span>Login</span>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -83,6 +90,14 @@ const Navigation = () => {
               </Link>
             );
           })}
+          <Link 
+            to="/auth" 
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-all flex items-center space-x-2"
+            onClick={() => setIsOpen(false)}
+          >
+            <LogIn className="w-5 h-5" />
+            <span>Login</span>
+          </Link>
         </div>
       </div>
     </nav>

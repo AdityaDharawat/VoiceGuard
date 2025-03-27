@@ -75,15 +75,16 @@ const Dashboard = () => {
         
         <div className="flex items-center space-x-4 mt-4 md:mt-0">
           <div className="relative">
-            <select 
-              value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value)}
-              className="appearance-none bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg pl-4 pr-8 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="quarterly">Quarterly</option>
-            </select>
+          <select 
+  value={timeRange}
+  onChange={(e) => setTimeRange(e.target.value)}
+  className="appearance-none bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg pl-4 pr-8 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+>
+  <option className="text-white" value="weekly">Weekly</option>
+  <option className="text-white" value="monthly">Monthly</option>
+  <option className="text-white" value="quarterly">Quarterly</option>
+</select>
+
             <FiFilter className="absolute right-3 top-2.5 text-gray-400" />
           </div>
           <button className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors">
