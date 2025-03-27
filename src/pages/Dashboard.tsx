@@ -3,12 +3,39 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
-import { FiDownload, FiFilter, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
+import { FiDownload, FiFilter, FiAlertCircle, FiCheckCircle, FiPlayCircle, FiStopCircle } from 'react-icons/fi';
 
 Chart.register(...registerables);
 
 const Dashboard = () => {
   const [timeRange, setTimeRange] = useState('monthly');
+  const [playingScans, setPlayingScans] = useState<number[]>([]);
+
+  const handlePlay = (id: number) => {
+    setPlayingScans((prev) =>
+      prev.includes(id) ? prev.filter((scanId) => scanId !== id) : [...prev, id]
+    );
+  };
+
+  const WaveAnimation = () => (
+    <div className="wave-container flex items-center space-x-1 h-6">
+      {[1, 2, 3, 4].map((wave) => (
+        <motion.div
+          key={wave}
+          className="wave h-full w-1 bg-blue-500 rounded-full"
+          animate={{
+            height: ['50%', '100%', '50%'],
+            opacity: [0.5, 1, 0.5],
+          }}
+          transition={{
+            duration: 0.8,
+            repeat: Infinity,
+            delay: wave * 0.2,
+          }}
+        />
+      ))}
+    </div>
+  );
 
   // Sample data
   const detectionData = {
@@ -118,7 +145,7 @@ const Dashboard = () => {
           className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow border border-gray-100 dark:border-gray-700"
         >
           <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">Detection Accuracy</p>
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">98.2%</h3>
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">98.2%/</h3>
           <p className="text-sm text-green-500">+0.3% improvement</p>
         </motion.div>
         
@@ -207,6 +234,7 @@ const Dashboard = () => {
                 <th className="p-4 text-sm font-medium text-gray-600 dark:text-gray-300">File Name</th>
                 <th className="p-4 text-sm font-medium text-gray-600 dark:text-gray-300">Result</th>
                 <th className="p-4 text-sm font-medium text-gray-600 dark:text-gray-300">Confidence</th>
+                <th className="p-4 text-sm font-medium text-gray-600 dark:text-gray-300">Play</th>
               </tr>
             </thead>
             <tbody>
@@ -226,6 +254,23 @@ const Dashboard = () => {
                     )}
                   </td>
                   <td className="p-4 text-sm dark:text-white">{scan.confidence}%</td>
+                  <td className="p-4 flex items-center space-x-2">
+                    <button
+                      onClick={() => handlePlay(scan.id)}
+                      className="flex items-center px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
+                    >
+                      {playingScans.includes(scan.id) ? (
+                        <>
+                          <FiStopCircle className="mr-1" /> Stop
+                        </>
+                      ) : (
+                        <>
+                          <FiPlayCircle className="mr-1" /> Play
+                        </>
+                      )}
+                    </button>
+                    {playingScans.includes(scan.id) && <WaveAnimation />}
+                  </td>
                 </tr>
               ))}
             </tbody>
